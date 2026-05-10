@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse Jeff's Roofing project gallery — residential and commercial roofing installations across Denver, CO.">
+  <title>Project Gallery | Jeff's Roofing & Restoration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .filter-bar { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:36px; }
+    .filter-btn { padding:8px 20px; border-radius:20px; border:1.5px solid #ddd; background:var(--white); font-family:var(--font-heading); font-weight:600; font-size:0.85rem; cursor:pointer; transition:all var(--transition); color:var(--dark-gray); }
+    .filter-btn.active, .filter-btn:hover { background:var(--orange); border-color:var(--orange); color:var(--white); }
+    .gallery-full-item { transition: opacity 0.3s ease, transform 0.3s ease; }
+    .gallery-full-item.hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="container">
+    <span>🏆 Serving Denver & Surrounding Areas Since 2004</span>
+    <div class="top-bar-links">
+      <a href="tel:7205557663">📞 (720) 555-7663</a>
+      <a href="mailto:jeff@jeffsroofing.com">jeff@jeffsroofing.com</a>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </div>
+      <div class="logo-text">
+        <strong>Jeff's Roofing</strong>
+        <span>&amp; Restoration</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li class="nav-cta"><a href="contact.html" class="btn btn-primary">Free Estimate</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> › <span>Gallery</span>
+    </div>
+    <h1>Project Gallery</h1>
+    <p>Real projects, real results — browse our work across Denver and surrounding areas.</p>
+  </div>
+</div>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="replacement">Replacements</button>
+      <button class="filter-btn" data-filter="repair">Repairs</button>
+      <button class="filter-btn" data-filter="gutters">Gutters</button>
+      <button class="filter-btn" data-filter="commercial">Commercial</button>
+    </div>
+
+    <div class="gallery-full-grid" id="gallery-grid">
+      <div class="gallery-full-item" data-category="replacement" data-lightbox>
+        <img src="images/house1.jpg" alt="Full shingle replacement - Highlands Ranch" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>Full Shingle Replacement</h4>
+          <span>Highlands Ranch, CO — 2024</span>
+        </div>
+      </div>
+      <div class="gallery-full-item" data-category="replacement" data-lightbox>
+        <img src="images/house2.jpg" alt="GAF Timberline HDZ installation" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>GAF Timberline HDZ Install</h4>
+          <span>Parker, CO — 2024</span>
+        </div>
+      </div>
+      <div class="gallery-full-item" data-category="replacement" data-lightbox>
+        <img src="images/roof-shingles.jpg" alt="Architectural shingles close-up" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>Architectural Shingle Detail</h4>
+          <span>Lakewood, CO — 2023</span>
+        </div>
+      </div>
+      <div class="gallery-full-item" data-category="repair" data-lightbox>
+        <img src="images/repair.jpg" alt="Storm damage repair" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>Post-Hail Storm Repair</h4>
+          <span>Aurora, CO — 2024</span>
+        </div>
+      </div>
+      <div class="gallery-full-item" data-category="gutters" data-lightbox>
+        <img src="images/gutters.jpg" alt="Seamless gutter install" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>Seamless Aluminum Gutters</h4>
+          <span>Centennial, CO — 2024</span>
+        </div>
+      </div>
+      <div class="gallery-full-item" data-category="replacement" data-lightbox>
+        <img src="images/workers.jpg" alt="Crew installing new roof" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>Complete Tear-Off &amp; Replace</h4>
+          <span>Castle Rock, CO — 2023</span>
+        </div>
+      </div>
+      <div class="gallery-full-item" data-category="commercial" data-lightbox>
+        <img src="images/house2.jpg" alt="Commercial flat roof" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>TPO Commercial Install</h4>
+          <span>Denver, CO — 2024</span>
+        </div>
+      </div>
+      <div class="gallery-full-item" data-category="repair" data-lightbox>
+        <img src="images/roof-shingles.jpg" alt="Flashing repair" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>Chimney Flashing Replacement</h4>
+          <span>Englewood, CO — 2024</span>
+        </div>
+      </div>
+      <div class="gallery-full-item" data-category="replacement" data-lightbox>
+        <img src="images/house1.jpg" alt="New construction roof" loading="lazy">
+        <div class="gallery-full-overlay">
+          <h4>New Construction Roof</h4>
+          <span>Broomfield, CO — 2023</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="container">
+    <h2>Like What You See?</h2>
+    <p>Let us add your home to our gallery. Get a free estimate today.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a href="contact.html" class="btn" style="background:var(--white);color:var(--orange);font-weight:800">Get Free Estimate</a>
+      <a href="tel:7205557663" class="btn btn-outline">(720) 555-7663</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo"><strong>Jeff's <span>Roofing</span></strong> &amp; Restoration</div>
+        <p>Denver's trusted roofing contractor since 2004. Family owned, locally operated.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul class="footer-links">
+          <li><a href="services.html">All Services</a></li>
+          <li><a href="services.html#replacement">Roof Replacement</a></li>
+          <li><a href="services.html#storm">Storm Damage</a></li>
+          <li><a href="services.html#repair">Leak Repair</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          <a href="tel:7205557663">(720) 555-7663</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;width:100%">
+      <span>© 2024 Jeff's Roofing &amp; Restoration LLC. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" aria-label="Close">&times;</button>
+  <img class="lightbox-img" src="" alt="Project photo">
+</div>
+
+<button id="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+
+<script src="js/main.js"></script>
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.gallery-full-item').forEach(item => {
+        if (filter === 'all' || item.dataset.category === filter) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

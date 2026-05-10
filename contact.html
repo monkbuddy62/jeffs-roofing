@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact Jeff's Roofing & Restoration for a free roof inspection and estimate. Serving Denver, CO and surrounding areas.">
+  <title>Contact Us | Jeff's Roofing & Restoration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="container">
+    <span>🏆 Serving Denver & Surrounding Areas Since 2004</span>
+    <div class="top-bar-links">
+      <a href="tel:7205557663">📞 (720) 555-7663</a>
+      <a href="mailto:jeff@jeffsroofing.com">jeff@jeffsroofing.com</a>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </div>
+      <div class="logo-text">
+        <strong>Jeff's Roofing</strong>
+        <span>&amp; Restoration</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li class="nav-cta"><a href="contact.html" class="btn btn-primary">Free Estimate</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> › <span>Contact</span>
+    </div>
+    <h1>Get Your Free Estimate</h1>
+    <p>We respond within 2 hours. No pressure, no obligation.</p>
+  </div>
+</div>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- FORM -->
+      <div>
+        <div class="section-label">Request a Quote</div>
+        <h2 class="section-title" style="margin-bottom:8px">Tell Us About Your Project</h2>
+        <p style="color:var(--mid-gray);margin-bottom:32px">Fill out the form below and one of our project specialists will contact you within 2 hours to schedule your free inspection.</p>
+
+        <div id="form-success" class="form-success">
+          ✅ Your message has been sent! We'll be in touch within 2 hours.
+        </div>
+
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name *</label>
+              <input type="text" id="first-name" name="first_name" placeholder="John" required>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name *</label>
+              <input type="text" id="last-name" name="last_name" placeholder="Smith" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number *</label>
+              <input type="tel" id="phone" name="phone" placeholder="(720) 555-0000" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="john@email.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Property Address</label>
+            <input type="text" id="address" name="address" placeholder="123 Main St, Denver, CO 80203">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="service">Service Needed *</label>
+              <select id="service" name="service" required>
+                <option value="" disabled selected>Select a service</option>
+                <option value="replacement">Roof Replacement</option>
+                <option value="repair">Roof Repair / Leak</option>
+                <option value="storm">Storm / Hail Damage</option>
+                <option value="gutters">Gutters</option>
+                <option value="commercial">Commercial Roofing</option>
+                <option value="maintenance">Maintenance</option>
+                <option value="inspection">Inspection Only</option>
+                <option value="other">Other / Not Sure</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="timeline">Desired Timeline</label>
+              <select id="timeline" name="timeline">
+                <option value="" disabled selected>Select timeline</option>
+                <option value="asap">As soon as possible</option>
+                <option value="2weeks">Within 2 weeks</option>
+                <option value="1month">Within 1 month</option>
+                <option value="flexible">Flexible</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="insurance">Insurance Claim?</label>
+            <select id="insurance" name="insurance">
+              <option value="unsure">Not sure yet</option>
+              <option value="yes">Yes, filing a claim</option>
+              <option value="no">No, paying out of pocket</option>
+              <option value="help">Need help deciding</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Tell Us More</label>
+            <textarea id="message" name="message" placeholder="Describe what's happening with your roof, any symptoms you've noticed, or questions you have..."></textarea>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-start;gap:10px">
+            <input type="checkbox" id="consent" name="consent" style="width:auto;margin-top:3px" required>
+            <label for="consent" style="text-transform:none;letter-spacing:0;font-weight:400;font-size:0.88rem;color:var(--dark-gray)">
+              I agree to be contacted by Jeff's Roofing &amp; Restoration by phone, text, or email regarding my inquiry.
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:16px">
+            Send My Request →
+          </button>
+        </form>
+      </div>
+
+      <!-- CONTACT INFO -->
+      <div>
+        <div class="contact-info-card">
+          <h3>Contact Information</h3>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            </div>
+            <div>
+              <strong>Phone</strong>
+              <a href="tel:7205557663">(720) 555-7663</a>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </div>
+            <div>
+              <strong>Email</strong>
+              <a href="mailto:jeff@jeffsroofing.com">jeff@jeffsroofing.com</a>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            </div>
+            <div>
+              <strong>Service Area</strong>
+              <span>Denver &amp; Metro Area<br>Jefferson, Arapahoe, Douglas,<br>Adams, Broomfield Counties</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+            </div>
+            <div>
+              <strong>Business Hours</strong>
+              <dl class="hours-grid">
+                <dt>Mon – Fri</dt><dd>7:00am – 6:00pm</dd>
+                <dt>Saturday</dt><dd>8:00am – 4:00pm</dd>
+                <dt>Sunday</dt><dd>Emergency only</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMERGENCY BOX -->
+        <div style="background:var(--orange);border-radius:var(--radius-lg);padding:28px;margin-top:20px;text-align:center" id="insurance">
+          <div style="font-size:1.5rem;margin-bottom:8px">⛈️</div>
+          <h4 style="color:var(--white);font-family:var(--font-heading);font-size:1.1rem;font-weight:800;margin-bottom:6px">Storm Emergency?</h4>
+          <p style="color:rgba(255,255,255,0.9);font-size:0.88rem;margin-bottom:14px">We offer 24/7 emergency tarping and board-up services to protect your home while we schedule permanent repairs.</p>
+          <a href="tel:7205557663" class="btn" style="background:var(--white);color:var(--orange);font-weight:800;width:100%;justify-content:center">Call Emergency Line</a>
+        </div>
+
+        <!-- WHY US MINI -->
+        <div style="background:var(--cream);border-radius:var(--radius-lg);padding:24px;margin-top:20px">
+          <h4 style="font-family:var(--font-heading);color:var(--navy);margin-bottom:14px">Why Homeowners Choose Us</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:10px">
+            <li style="display:flex;gap:10px;align-items:center;font-size:0.88rem;color:var(--dark-gray)">
+              <span style="color:var(--orange);font-size:1rem">✓</span> Free inspection, no obligation
+            </li>
+            <li style="display:flex;gap:10px;align-items:center;font-size:0.88rem;color:var(--dark-gray)">
+              <span style="color:var(--orange);font-size:1rem">✓</span> 2-hour response guarantee
+            </li>
+            <li style="display:flex;gap:10px;align-items:center;font-size:0.88rem;color:var(--dark-gray)">
+              <span style="color:var(--orange);font-size:1rem">✓</span> Full insurance claim assistance
+            </li>
+            <li style="display:flex;gap:10px;align-items:center;font-size:0.88rem;color:var(--dark-gray)">
+              <span style="color:var(--orange);font-size:1rem">✓</span> 4.9★ rating (312 Google reviews)
+            </li>
+            <li style="display:flex;gap:10px;align-items:center;font-size:0.88rem;color:var(--dark-gray)">
+              <span style="color:var(--orange);font-size:1rem">✓</span> Lifetime workmanship warranty
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo"><strong>Jeff's <span>Roofing</span></strong> &amp; Restoration</div>
+        <p>Denver's trusted roofing contractor since 2004. Family owned, locally operated.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul class="footer-links">
+          <li><a href="services.html">All Services</a></li>
+          <li><a href="services.html#replacement">Roof Replacement</a></li>
+          <li><a href="services.html#storm">Storm Damage</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          <a href="tel:7205557663">(720) 555-7663</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;width:100%">
+      <span>© 2024 Jeff's Roofing &amp; Restoration LLC. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+
+<script src="js/main.js"></script>
+</body>
+</html>

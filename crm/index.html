@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM Dashboard | Jeff's Roofing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:#1a2942; --orange:#e8531c; --cream:#f8f5f0;
+      --light:#f0f2f5; --mid-gray:#9a9a9a; --text:#2c2c2c;
+      --white:#fff; --radius:8px; --shadow:0 2px 12px rgba(0,0,0,0.08);
+      --font-h:'Montserrat',sans-serif; --font-b:'Open Sans',sans-serif;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:var(--font-b); background:var(--light); color:var(--text); min-height:100vh; }
+
+    /* LOGIN */
+    #login-screen {
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background:var(--navy);
+    }
+    .login-box {
+      background:var(--white); border-radius:16px; padding:48px; width:100%; max-width:400px;
+      box-shadow:0 8px 40px rgba(0,0,0,0.3); text-align:center;
+    }
+    .login-box .logo-icon { width:56px; height:56px; background:var(--orange); border-radius:10px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
+    .login-box .logo-icon svg { width:30px; height:30px; fill:white; }
+    .login-box h2 { font-family:var(--font-h); font-size:1.4rem; color:var(--navy); margin-bottom:6px; }
+    .login-box p { color:var(--mid-gray); font-size:0.88rem; margin-bottom:28px; }
+    .login-box input { width:100%; padding:12px 16px; border:1.5px solid #ddd; border-radius:var(--radius); font-size:1rem; margin-bottom:14px; }
+    .login-box input:focus { outline:none; border-color:var(--orange); }
+    .login-box button { width:100%; padding:13px; background:var(--orange); color:white; border:none; border-radius:var(--radius); font-family:var(--font-h); font-weight:700; font-size:1rem; cursor:pointer; }
+    .login-box button:hover { background:#c94415; }
+    #login-error { color:#dc2626; font-size:0.85rem; margin-top:8px; display:none; }
+
+    /* LAYOUT */
+    #app { display:none; min-height:100vh; }
+
+    .sidebar {
+      width:240px; background:var(--navy); position:fixed; top:0; left:0; height:100vh;
+      display:flex; flex-direction:column; z-index:100;
+    }
+    .sidebar-logo { padding:24px; border-bottom:1px solid rgba(255,255,255,0.08); }
+    .sidebar-logo strong { color:white; font-family:var(--font-h); font-size:1rem; display:block; }
+    .sidebar-logo span { color:rgba(255,255,255,0.4); font-size:0.75rem; }
+
+    .nav-menu { list-style:none; padding:16px 0; flex:1; }
+    .nav-menu li a, .nav-menu li button {
+      display:flex; align-items:center; gap:10px; padding:11px 20px;
+      color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.88rem; font-weight:600;
+      transition:all 0.2s; cursor:pointer; background:none; border:none; width:100%; text-align:left;
+    }
+    .nav-menu li a:hover, .nav-menu li a.active { background:rgba(255,255,255,0.08); color:white; }
+    .nav-menu li a svg, .nav-menu li button svg { width:18px; height:18px; fill:currentColor; flex-shrink:0; }
+    .nav-menu .active { background:rgba(232,83,28,0.2) !important; color:var(--orange) !important; }
+
+    .sidebar-bottom { padding:16px; border-top:1px solid rgba(255,255,255,0.08); }
+    .sidebar-bottom a { color:rgba(255,255,255,0.5); font-size:0.82rem; text-decoration:none; display:block; margin-bottom:8px; }
+    .sidebar-bottom a:hover { color:white; }
+
+    .main-content { margin-left:240px; padding:0; min-height:100vh; }
+
+    .topbar {
+      background:white; border-bottom:1px solid #e5e7eb; padding:16px 28px;
+      display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50;
+    }
+    .topbar h1 { font-family:var(--font-h); font-size:1.15rem; font-weight:800; color:var(--navy); }
+    .topbar-actions { display:flex; gap:10px; align-items:center; }
+    .btn { display:inline-flex; align-items:center; gap:6px; padding:9px 18px; border-radius:var(--radius); font-family:var(--font-h); font-weight:700; font-size:0.82rem; cursor:pointer; border:none; transition:all 0.2s; }
+    .btn-primary { background:var(--orange); color:white; }
+    .btn-primary:hover { background:#c94415; }
+    .btn-secondary { background:var(--light); color:var(--navy); border:1.5px solid #ddd; }
+    .btn-secondary:hover { border-color:var(--navy); }
+    .btn-sm { padding:6px 12px; font-size:0.78rem; }
+    .btn-danger { background:#fee2e2; color:#dc2626; }
+    .btn-danger:hover { background:#fecaca; }
+
+    .page { display:none; padding:28px; }
+    .page.active { display:block; }
+
+    /* STATS */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-bottom:28px; }
+    .stat-card { background:white; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+    .stat-card .stat-label { font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--mid-gray); margin-bottom:8px; }
+    .stat-card .stat-val { font-family:var(--font-h); font-size:2rem; font-weight:900; color:var(--navy); line-height:1; }
+    .stat-card .stat-sub { font-size:0.78rem; color:var(--mid-gray); margin-top:4px; }
+    .stat-card.orange .stat-val { color:var(--orange); }
+    .stat-card.green .stat-val { color:#059669; }
+    .stat-card.red .stat-val { color:#dc2626; }
+
+    /* TABLE */
+    .table-card { background:white; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .table-header { padding:18px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #f0f0f0; gap:12px; flex-wrap:wrap; }
+    .table-header h3 { font-family:var(--font-h); font-size:0.95rem; font-weight:800; color:var(--navy); }
+
+    .search-box { position:relative; }
+    .search-box input { padding:8px 12px 8px 36px; border:1.5px solid #ddd; border-radius:var(--radius); font-size:0.85rem; width:220px; }
+    .search-box input:focus { outline:none; border-color:var(--orange); }
+    .search-box svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); width:16px; height:16px; fill:var(--mid-gray); }
+
+    .filter-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .filter-row select { padding:8px 10px; border:1.5px solid #ddd; border-radius:var(--radius); font-size:0.82rem; color:var(--text); }
+    .filter-row select:focus { outline:none; border-color:var(--orange); }
+
+    table { width:100%; border-collapse:collapse; }
+    th { text-align:left; padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--mid-gray); background:#fafafa; border-bottom:1px solid #f0f0f0; white-space:nowrap; }
+    td { padding:13px 14px; font-size:0.88rem; border-bottom:1px solid #f5f5f5; vertical-align:middle; }
+    tr:hover td { background:#fafafa; }
+    tr:last-child td { border-bottom:none; }
+
+    .lead-name { font-weight:700; color:var(--navy); display:block; }
+    .lead-sub { font-size:0.78rem; color:var(--mid-gray); margin-top:1px; }
+
+    .action-btns { display:flex; gap:6px; }
+
+    /* MODAL */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; align-items:center; justify-content:center; padding:20px; }
+    .modal-overlay.active { display:flex; }
+    .modal { background:white; border-radius:12px; width:100%; max-width:600px; max-height:90vh; overflow-y:auto; }
+    .modal-header { padding:20px 24px; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between; align-items:center; }
+    .modal-header h3 { font-family:var(--font-h); font-size:1rem; font-weight:800; color:var(--navy); }
+    .modal-close { background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--mid-gray); line-height:1; }
+    .modal-close:hover { color:var(--text); }
+    .modal-body { padding:24px; }
+    .modal-footer { padding:16px 24px; border-top:1px solid #f0f0f0; display:flex; justify-content:flex-end; gap:10px; }
+
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; font-size:0.78rem; font-weight:700; color:var(--navy); margin-bottom:5px; text-transform:uppercase; letter-spacing:0.06em; }
+    .form-group input, .form-group select, .form-group textarea {
+      width:100%; padding:10px 12px; border:1.5px solid #ddd; border-radius:var(--radius);
+      font-family:var(--font-b); font-size:0.9rem; color:var(--text);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline:none; border-color:var(--orange); box-shadow:0 0 0 3px rgba(232,83,28,0.1);
+    }
+    .form-group textarea { resize:vertical; min-height:90px; }
+    .form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+    /* LEAD DETAIL */
+    .detail-section { margin-bottom:24px; }
+    .detail-section h4 { font-family:var(--font-h); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--mid-gray); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #f0f0f0; }
+    .detail-row { display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.88rem; }
+    .detail-row .label { color:var(--mid-gray); font-weight:600; }
+    .detail-row .value { color:var(--navy); font-weight:600; text-align:right; max-width:60%; }
+
+    .notes-box { background:#fafafa; border-radius:var(--radius); padding:14px; font-size:0.88rem; color:var(--text); line-height:1.6; white-space:pre-wrap; }
+
+    /* ACTIVITY */
+    .activity-log { list-style:none; display:flex; flex-direction:column; gap:0; }
+    .activity-item { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid #f5f5f5; font-size:0.82rem; }
+    .activity-dot { width:8px; height:8px; border-radius:50%; background:var(--orange); flex-shrink:0; margin-top:5px; }
+    .activity-item .time { color:var(--mid-gray); white-space:nowrap; min-width:80px; }
+
+    /* PIPELINE */
+    .pipeline-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; }
+    .pipeline-col { background:white; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .pipeline-col-header { padding:12px 16px; font-family:var(--font-h); font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; }
+    .pipeline-col-body { padding:10px; display:flex; flex-direction:column; gap:8px; min-height:80px; }
+    .pipeline-card { background:#fafafa; border:1px solid #e5e7eb; border-radius:6px; padding:12px; cursor:pointer; transition:box-shadow 0.2s; }
+    .pipeline-card:hover { box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    .pipeline-card .pc-name { font-weight:700; font-size:0.85rem; color:var(--navy); }
+    .pipeline-card .pc-service { font-size:0.75rem; color:var(--mid-gray); margin-top:3px; }
+    .pipeline-card .pc-value { font-size:0.78rem; color:var(--orange); font-weight:700; margin-top:6px; }
+
+    .empty-state { text-align:center; padding:60px 20px; color:var(--mid-gray); }
+    .empty-state svg { width:48px; height:48px; fill:var(--mid-gray); opacity:0.4; margin:0 auto 14px; display:block; }
+
+    .badge-count { background:var(--orange); color:white; border-radius:10px; padding:2px 7px; font-size:0.72rem; font-weight:700; margin-left:4px; }
+
+    @media (max-width:768px) {
+      .sidebar { display:none; }
+      .main-content { margin-left:0; }
+      .form-row-2 { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </div>
+    <h2>CRM Login</h2>
+    <p>Jeff's Roofing &amp; Restoration — Admin Portal</p>
+    <input type="password" id="pass-input" placeholder="Enter password" autocomplete="current-password">
+    <button onclick="doLogin()">Sign In →</button>
+    <div id="login-error">Incorrect password. Try again.</div>
+    <p style="margin-top:16px;font-size:0.75rem;color:#aaa">Default password: <code>roofing2024</code></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <strong>Jeff's Roofing CRM</strong>
+      <span>Lead Management</span>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="#" class="active" onclick="showPage('dashboard',this)">
+        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        Dashboard
+      </a></li>
+      <li><a href="#" onclick="showPage('leads',this)">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        All Leads <span class="badge-count" id="nav-count">0</span>
+      </a></li>
+      <li><a href="#" onclick="showPage('pipeline',this)">
+        <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+        Pipeline
+      </a></li>
+      <li><a href="#" onclick="showPage('add-lead',this)">
+        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Add Lead
+      </a></li>
+    </ul>
+    <div class="sidebar-bottom">
+      <a href="../index.html">← Back to Website</a>
+      <a href="#" onclick="CRM.exportCSV(); return false;">Export CSV</a>
+      <a href="#" onclick="CRM.logout()">Log Out</a>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <div class="topbar">
+      <h1 id="page-title">Dashboard</h1>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary btn-sm" onclick="CRM.exportCSV()">⬇ Export CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="showPage('add-lead', document.querySelector('.nav-menu a:nth-child(4)'))">+ Add Lead</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page active">
+      <div class="stats-grid" id="stats-grid"></div>
+      <div class="table-card">
+        <div class="table-header">
+          <h3>Recent Leads</h3>
+          <a href="#" onclick="showPage('leads',null);return false" style="font-size:0.82rem;color:var(--orange);font-weight:700">View All →</a>
+        </div>
+        <div id="recent-leads-table"></div>
+      </div>
+    </div>
+
+    <!-- ALL LEADS -->
+    <div id="page-leads" class="page">
+      <div class="table-card">
+        <div class="table-header">
+          <h3>All Leads</h3>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+              <input type="text" id="search-input" placeholder="Search leads..." oninput="renderLeadsTable()">
+            </div>
+            <select id="status-filter" onchange="renderLeadsTable()">
+              <option value="">All Statuses</option>
+              <option>New</option><option>Contacted</option><option>Quoted</option>
+              <option>Scheduled</option><option>Won</option><option>Lost</option><option>On Hold</option>
+            </select>
+            <select id="service-filter" onchange="renderLeadsTable()">
+              <option value="">All Services</option>
+              <option>Roof Replacement</option><option>Storm/Hail Damage</option>
+              <option>Leak Repair</option><option>Gutters</option>
+              <option>Commercial</option><option>Maintenance</option>
+            </select>
+          </div>
+        </div>
+        <div id="leads-table"></div>
+      </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div id="page-pipeline" class="page">
+      <div class="pipeline-grid" id="pipeline-grid"></div>
+    </div>
+
+    <!-- ADD LEAD -->
+    <div id="page-add-lead" class="page">
+      <div style="max-width:680px">
+        <div class="table-card">
+          <div class="modal-header" style="border-radius:var(--radius) var(--radius) 0 0">
+            <h3>Add New Lead</h3>
+          </div>
+          <div class="modal-body">
+            <form id="add-lead-form" onsubmit="submitNewLead(event)">
+              <div class="form-row-2">
+                <div class="form-group"><label>Full Name *</label><input name="name" required placeholder="Jane Smith"></div>
+                <div class="form-group"><label>Phone *</label><input name="phone" required placeholder="(720) 555-0000" type="tel"></div>
+              </div>
+              <div class="form-row-2">
+                <div class="form-group"><label>Email</label><input name="email" placeholder="jane@email.com" type="email"></div>
+                <div class="form-group"><label>Address</label><input name="address" placeholder="123 Main St, Denver CO"></div>
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>Service Needed</label>
+                  <select name="service">
+                    <option value="">Select...</option>
+                    <option>Roof Replacement</option><option>Storm/Hail Damage</option>
+                    <option>Leak Repair</option><option>Gutters</option>
+                    <option>Commercial</option><option>Maintenance</option>
+                    <option>Inspection</option><option>Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Lead Source</label>
+                  <select name="source">
+                    <option value="">Select...</option>
+                    <option>Google Search</option><option>Google Ads</option>
+                    <option>Referral</option><option>Neighbor</option>
+                    <option>Facebook</option><option>Door Hanger</option>
+                    <option>Yard Sign</option><option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>Status</label>
+                  <select name="status">
+                    <option>New</option><option>Contacted</option><option>Quoted</option>
+                    <option>Scheduled</option><option>Won</option><option>Lost</option><option>On Hold</option>
+                  </select>
+                </div>
+                <div class="form-group"><label>Job Value ($)</label><input name="jobValue" placeholder="0.00" type="number" min="0"></div>
+              </div>
+              <div class="form-group"><label>Insurance Carrier</label><input name="insurance" placeholder="State Farm, Allstate, etc."></div>
+              <div class="form-group"><label>Notes</label><textarea name="notes" placeholder="Any details about this lead, roof condition, timeline, etc."></textarea></div>
+              <div style="display:flex;gap:10px">
+                <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">Save Lead</button>
+                <button type="reset" class="btn btn-secondary">Clear</button>
+              </div>
+            </form>
+            <div id="add-success" style="display:none;background:#d1fae5;border:1px solid #a7f3d0;color:#065f46;padding:12px 16px;border-radius:var(--radius);margin-top:14px;font-weight:600">
+              ✅ Lead added successfully!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Edit Lead</h3>
+      <button class="modal-close" onclick="closeModal('edit-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="edit-lead-form" onsubmit="submitEditLead(event)">
+        <input type="hidden" name="id">
+        <div class="form-row-2">
+          <div class="form-group"><label>Full Name</label><input name="name" required></div>
+          <div class="form-group"><label>Phone</label><input name="phone" type="tel"></div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group"><label>Email</label><input name="email" type="email"></div>
+          <div class="form-group"><label>Address</label><input name="address"></div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>Service</label>
+            <select name="service">
+              <option value="">Select...</option>
+              <option>Roof Replacement</option><option>Storm/Hail Damage</option>
+              <option>Leak Repair</option><option>Gutters</option>
+              <option>Commercial</option><option>Maintenance</option>
+              <option>Inspection</option><option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Source</label>
+            <select name="source">
+              <option value="">Select...</option>
+              <option>Google Search</option><option>Google Ads</option>
+              <option>Referral</option><option>Neighbor</option>
+              <option>Facebook</option><option>Door Hanger</option>
+              <option>Yard Sign</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>Status</label>
+            <select name="status">
+              <option>New</option><option>Contacted</option><option>Quoted</option>
+              <option>Scheduled</option><option>Won</option><option>Lost</option><option>On Hold</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Job Value ($)</label><input name="jobValue" type="number" min="0"></div>
+        </div>
+        <div class="form-group"><label>Insurance Carrier</label><input name="insurance"></div>
+        <div class="form-group"><label>Notes</label><textarea name="notes"></textarea></div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('edit-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('edit-lead-form').dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="detail-name">Lead Detail</h3>
+      <button class="modal-close" onclick="closeModal('detail-modal')">&times;</button>
+    </div>
+    <div class="modal-body" id="detail-body"></div>
+    <div class="modal-footer" id="detail-footer"></div>
+  </div>
+</div>
+
+<script src="../js/crm.js"></script>
+<script>
+  // Check auth on load
+  window.addEventListener('DOMContentLoaded', () => {
+    if (CRM.isAuthed()) {
+      showApp();
+    }
+    document.getElementById('pass-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+  });
+
+  function doLogin() {
+    const pass = document.getElementById('pass-input').value;
+    if (CRM.login(pass)) {
+      showApp();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+
+  function showApp() {
+    CRM.seedDemoData();
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    renderDashboard();
+    updateNavCount();
+  }
+
+  function showPage(name, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-menu a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    if (el) el.classList.add('active');
+    const titles = { dashboard:'Dashboard', leads:'All Leads', pipeline:'Pipeline View', 'add-lead':'Add New Lead' };
+    document.getElementById('page-title').textContent = titles[name] || name;
+    if (name === 'dashboard') renderDashboard();
+    if (name === 'leads') renderLeadsTable();
+    if (name === 'pipeline') renderPipeline();
+  }
+
+  function updateNavCount() {
+    document.getElementById('nav-count').textContent = CRM.getLeads().length;
+  }
+
+  function renderDashboard() {
+    const s = CRM.getStats();
+    const grid = document.getElementById('stats-grid');
+    grid.innerHTML = `
+      <div class="stat-card"><div class="stat-label">Total Leads</div><div class="stat-val">${s.total}</div><div class="stat-sub">All time</div></div>
+      <div class="stat-card orange"><div class="stat-label">New</div><div class="stat-val">${s.new}</div><div class="stat-sub">Needs follow-up</div></div>
+      <div class="stat-card"><div class="stat-label">Contacted</div><div class="stat-val">${s.contacted}</div><div class="stat-sub">In progress</div></div>
+      <div class="stat-card"><div class="stat-label">Quoted</div><div class="stat-val">${s.quoted}</div><div class="stat-sub">Awaiting decision</div></div>
+      <div class="stat-card green"><div class="stat-label">Jobs Won</div><div class="stat-val">${s.won}</div><div class="stat-sub">Closed deals</div></div>
+      <div class="stat-card green"><div class="stat-label">Revenue</div><div class="stat-val">$${s.revenue.toLocaleString()}</div><div class="stat-sub">Won job values</div></div>
+    `;
+    const leads = CRM.getLeads().slice(0, 8);
+    document.getElementById('recent-leads-table').innerHTML = buildTable(leads, true);
+  }
+
+  function buildTable(leads, mini = false) {
+    if (!leads.length) return '<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><p>No leads found.</p></div>';
+    return `<table>
+      <thead><tr>
+        <th>Name / Contact</th>
+        <th>Service</th>
+        <th>Status</th>
+        <th>Source</th>
+        ${!mini ? '<th>Value</th>' : ''}
+        <th>Date</th>
+        <th>Actions</th>
+      </tr></thead>
+      <tbody>
+        ${leads.map(l => `<tr>
+          <td>
+            <span class="lead-name">${escHtml(l.name||'—')}</span>
+            <span class="lead-sub">${escHtml(l.phone||'')}${l.email ? ' · '+escHtml(l.email) : ''}</span>
+          </td>
+          <td>${escHtml(l.service||'—')}</td>
+          <td>${CRM.statusBadge(l.status)}</td>
+          <td>${escHtml(l.source||'—')}</td>
+          ${!mini ? `<td>${l.jobValue ? '$'+parseFloat(l.jobValue).toLocaleString() : '—'}</td>` : ''}
+          <td>${CRM.formatDate(l.createdAt)}</td>
+          <td>
+            <div class="action-btns">
+              <button class="btn btn-secondary btn-sm" onclick="openDetail('${l.id}')">View</button>
+              <button class="btn btn-secondary btn-sm" onclick="openEdit('${l.id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteLead('${l.id}')">Del</button>
+            </div>
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+  }
+
+  function renderLeadsTable() {
+    const query = (document.getElementById('search-input')?.value || '').toLowerCase();
+    const statusF = document.getElementById('status-filter')?.value || '';
+    const serviceF = document.getElementById('service-filter')?.value || '';
+    let leads = CRM.getLeads().filter(l => {
+      const matchQ = !query || [l.name,l.phone,l.email,l.address,l.notes].some(v => (v||'').toLowerCase().includes(query));
+      const matchS = !statusF || l.status === statusF;
+      const matchSv = !serviceF || l.service === serviceF;
+      return matchQ && matchS && matchSv;
+    });
+    document.getElementById('leads-table').innerHTML = buildTable(leads, false);
+  }
+
+  function renderPipeline() {
+    const statuses = ['New','Contacted','Quoted','Scheduled','Won','Lost','On Hold'];
+    const leads = CRM.getLeads();
+    const html = statuses.map(s => {
+      const cols = leads.filter(l => l.status === s);
+      const c = CRM.STATUS_COLORS[s] || { bg:'#f3f4f6', text:'#374151' };
+      return `<div class="pipeline-col">
+        <div class="pipeline-col-header" style="background:${c.bg};color:${c.text}">
+          ${s} <span style="opacity:0.7">(${cols.length})</span>
+        </div>
+        <div class="pipeline-col-body">
+          ${cols.length ? cols.map(l => `
+            <div class="pipeline-card" onclick="openDetail('${l.id}')">
+              <div class="pc-name">${escHtml(l.name||'—')}</div>
+              <div class="pc-service">${escHtml(l.service||'—')}</div>
+              ${l.jobValue ? `<div class="pc-value">$${parseFloat(l.jobValue).toLocaleString()}</div>` : ''}
+            </div>
+          `).join('') : '<div style="font-size:0.78rem;color:#aaa;padding:8px">No leads</div>'}
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('pipeline-grid').innerHTML = html;
+  }
+
+  function openDetail(id) {
+    const l = CRM.getLead(id);
+    if (!l) return;
+    document.getElementById('detail-name').textContent = l.name || 'Lead Detail';
+    document.getElementById('detail-body').innerHTML = `
+      <div class="detail-section">
+        <h4>Contact Info</h4>
+        <div class="detail-row"><span class="label">Phone</span><span class="value">${l.phone||'—'}</span></div>
+        <div class="detail-row"><span class="label">Email</span><span class="value">${l.email||'—'}</span></div>
+        <div class="detail-row"><span class="label">Address</span><span class="value">${l.address||'—'}</span></div>
+      </div>
+      <div class="detail-section">
+        <h4>Project Details</h4>
+        <div class="detail-row"><span class="label">Service</span><span class="value">${l.service||'—'}</span></div>
+        <div class="detail-row"><span class="label">Status</span><span class="value">${CRM.statusBadge(l.status)}</span></div>
+        <div class="detail-row"><span class="label">Job Value</span><span class="value">${l.jobValue ? '$'+parseFloat(l.jobValue).toLocaleString() : '—'}</span></div>
+        <div class="detail-row"><span class="label">Insurance</span><span class="value">${l.insurance||'—'}</span></div>
+        <div class="detail-row"><span class="label">Source</span><span class="value">${l.source||'—'}</span></div>
+      </div>
+      <div class="detail-section">
+        <h4>Notes</h4>
+        <div class="notes-box">${l.notes ? escHtml(l.notes) : 'No notes.'}</div>
+      </div>
+      <div class="detail-section">
+        <h4>Timeline</h4>
+        <div class="detail-row"><span class="label">Created</span><span class="value">${CRM.formatDate(l.createdAt)}</span></div>
+        <div class="detail-row"><span class="label">Updated</span><span class="value">${CRM.formatDate(l.updatedAt)}</span></div>
+        <div class="detail-row"><span class="label">Lead ID</span><span class="value" style="font-family:monospace;font-size:0.8rem">${l.id}</span></div>
+      </div>
+    `;
+    document.getElementById('detail-footer').innerHTML = `
+      <button class="btn btn-danger" onclick="deleteLead('${l.id}');closeModal('detail-modal')">Delete</button>
+      <button class="btn btn-secondary" onclick="closeModal('detail-modal')">Close</button>
+      <button class="btn btn-primary" onclick="closeModal('detail-modal');openEdit('${l.id}')">Edit Lead</button>
+    `;
+    openModal('detail-modal');
+  }
+
+  function openEdit(id) {
+    const l = CRM.getLead(id);
+    if (!l) return;
+    const form = document.getElementById('edit-lead-form');
+    Object.keys(l).forEach(k => {
+      const el = form.elements[k];
+      if (el) el.value = l[k] || '';
+    });
+    openModal('edit-modal');
+  }
+
+  function submitEditLead(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form));
+    const id = data.id;
+    delete data.id;
+    CRM.updateLead(id, data);
+    closeModal('edit-modal');
+    renderDashboard();
+    renderLeadsTable();
+    renderPipeline();
+    updateNavCount();
+  }
+
+  function submitNewLead(e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target));
+    CRM.addLead(data);
+    e.target.reset();
+    const s = document.getElementById('add-success');
+    s.style.display = 'block';
+    setTimeout(() => s.style.display = 'none', 3000);
+    updateNavCount();
+    renderDashboard();
+  }
+
+  function deleteLead(id) {
+    if (!confirm('Delete this lead? This cannot be undone.')) return;
+    CRM.deleteLead(id);
+    renderDashboard();
+    renderLeadsTable();
+    renderPipeline();
+    updateNavCount();
+  }
+
+  function openModal(id) { document.getElementById(id).classList.add('active'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+    }
+  });
+
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
+  });
+</script>
+</body>
+</html>
